@@ -1,5 +1,8 @@
 **/*.class
 
-# Ignore temporary files from HW1 Part2
+# Ignore temporary files from HW1 Part2 directory
 HW1/Part2/output_files/**
 HW1/Part2/*~
+
+# Ignore temporary files from HW3 directory
+HW3/minijava_project/*.md
