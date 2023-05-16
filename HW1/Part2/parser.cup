@@ -1,0 +1,111 @@
+/**
+ *  Package and Import Specifications
+ */
+import java_cup.runtime.*;
+
+/**
+ *  Usercode Components
+ */
+parser code {:
+    // Connect this parser to a scanner!
+    Scanner s;
+    Parser(Scanner s){ this.s=s; }
+
+    String start = "public class Main {\n\tpublic static void main(String[] args) {\n";
+:}
+
+/* define how to connect to the scanner! */
+scan with {: return s.next_token(); :};
+
+/**
+ *  Symbol Lists
+ */
+
+/* Terminals (tokens returned by the scanner). */
+terminal            PLUS, RPAREN_LBRACK, COMMA, LPAREN, RPAREN, RBRACK, IF, ELSE, PREFIX, REVERSE;
+terminal String     STRING_LITERAL, ID;
+
+/*  Non terminals */
+non terminal            program;
+non terminal String     decls, top_exprs, decl, call, args, arg_tail, params, param, param_tail, expr, concat, ifelse,
+                        inner_call, inner_params, inner_param, inner_param_tail, id_or_str, reverse_arg, top_expr,
+                        top_ifelse, top_reverse_arg, top_concat;
+
+/**
+ *  Precedence Declarations
+ */
+precedence left PLUS;
+
+/**
+ *  The Grammar Rules
+ */
+program ::= decls:d top_exprs:e                                   {: System.out.printf("%s%s\t}\n%s}\n", start, e, d); :}
+          |                                                       {: System.out.printf("%s\t}\n}\n", start); :}
+;
+decls ::= decls:rest decl:d                                       {: RESULT = String.format("%s%s", rest, d); :}
+        |                                                         {: RESULT = ""; :}
+;
+decl ::= ID:id LPAREN args:a RPAREN_LBRACK expr:e RBRACK          {: RESULT = String.format("\n\tpublic static String %s(%s) {\n\t\treturn %s;\n\t}\n", id, a, e); :}
+;
+args ::= ID:id arg_tail:rest                                      {: RESULT = String.format("String %s%s", id, rest); :}
+       |                                                          {: RESULT = ""; :}
+;
+arg_tail ::= COMMA ID:id arg_tail:rest                            {: RESULT = String.format(", String %s%s", id, rest); :}
+           |                                                      {: RESULT = ""; :}
+;
+top_exprs ::= top_exprs:rest top_expr:e                           {: RESULT = String.format("%s\t\tSystem.out.println(%s);\n",rest,e); :}
+            | top_expr:e                                          {: RESULT = String.format("\t\tSystem.out.println(%s);\n",e); :}
+;
+top_expr ::= call:c                                               {: RESULT = c; :}
+           | STRING_LITERAL:s                                     {: RESULT = s; :}
+           | top_ifelse:ie                                        {: RESULT = ie; :}
+           | top_concat:c                                         {: RESULT = c; :}
+           | REVERSE top_reverse_arg:e                            {: RESULT = String.format("(new StringBuilder(%s).reverse().toString())", e); :}
+;
+top_ifelse ::= IF LPAREN top_expr:e1 PREFIX top_expr:e2 RPAREN top_expr:then_expr ELSE top_expr:else_expr  {: RESULT = String.format("(%s.startsWith(%s) ? %s : %s)", e2, e1, then_expr, else_expr); :}
+;
+top_concat ::= top_expr:e1 PLUS top_expr:e2                       {: RESULT = String.format("%s + %s", e1, e2); :}
+;
+top_reverse_arg ::= STRING_LITERAL:s                              {: RESULT = s; :}
+                  | call:c                                        {: RESULT = c; :}
+                  | REVERSE top_reverse_arg:e                     {: RESULT = String.format("(new StringBuilder(%s).reverse().toString())", e); :}
+                  | top_ifelse:ie                                 {: RESULT = ie; :}
+;
+call ::= ID:id LPAREN params:p RPAREN                             {: RESULT = String.format("%s(%s)", id, p); :}
+;
+params ::= param:p param_tail:rest                                {: RESULT = String.format("%s%s", p, rest); :}
+          |                                                       {: RESULT = ""; :}
+;
+param ::= top_expr:e                                              {: RESULT = e; :}
+;
+param_tail ::= COMMA param:p param_tail:rest                      {: RESULT = String.format(", %s%s", p, rest); :}
+             |                                                    {: RESULT = ""; :}
+;
+expr ::= id_or_str:e                                              {: RESULT = e; :}
+       | inner_call:c                                             {: RESULT = c; :}
+       | ifelse:ie                                                {: RESULT = ie; :}
+       | concat:c                                                 {: RESULT = c; :}
+       | REVERSE reverse_arg:e                                    {: RESULT = String.format("(new StringBuilder(%s).reverse().toString())", e); :}
+;
+reverse_arg ::= id_or_str:e                                       {: RESULT = e; :}
+              | inner_call:c                                      {: RESULT = c; :}
+              | REVERSE reverse_arg:e                             {: RESULT = String.format("(new StringBuilder(%s).reverse().toString())", e); :}
+              | ifelse:ie                                         {: RESULT = ie; :}
+;
+concat ::= expr:e1 PLUS expr:e2                                   {: RESULT = String.format("%s + %s", e1, e2); :}
+;
+ifelse ::= IF LPAREN expr:e1 PREFIX expr:e2 RPAREN expr:then_expr ELSE expr:else_expr    {: RESULT = String.format("(%s.startsWith(%s) ? %s : %s)", e2, e1, then_expr, else_expr); :}
+;
+id_or_str ::= ID:id                                               {: RESULT = id; :}
+            | STRING_LITERAL:s                                    {: RESULT = s; :}
+;
+inner_call ::= ID:id LPAREN inner_params:p RPAREN                 {: RESULT = String.format("%s(%s)", id, p); :}
+;
+inner_params ::= inner_param:p inner_param_tail:rest              {: RESULT = String.format("%s%s", p, rest); :}
+               |                                                  {: RESULT = ""; :}
+;
+inner_param ::= expr:e                                            {: RESULT = e; :}
+;
+inner_param_tail ::= COMMA inner_param:p inner_param_tail:rest    {: RESULT = String.format(", %s%s", p, rest); :}
+                   |                                              {: RESULT = ""; :}
+;

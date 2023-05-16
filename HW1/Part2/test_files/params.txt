@@ -1,0 +1,25 @@
+name() {
+    "John"
+}
+
+surname() {
+    "Doe"
+}
+
+
+repeat(x) {
+    x + x
+}
+
+cond_repeat(c, x) {
+    if (c prefix "yes")
+        if("yes" prefix c)
+            repeat(x)
+        else
+            x
+    else
+        x
+}
+
+repeat(if ("J" prefix name()) name() + surname() else "Konstantina")
+cond_repeat("yes", if ("J" prefix name()) reverse name() + surname() else "Konstantina")

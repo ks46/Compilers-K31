@@ -1,0 +1,58 @@
+boo() {
+  "boo"
+}
+
+f(x) {
+  "x: " + x
+}
+
+helper(str, acc, i, n) {
+  if (i prefix n)
+    if (n prefix i)
+      acc
+    else
+      helper(str, acc + str, i + ".", n)
+  else
+    ""
+}
+
+concat_n(str, n) {
+  helper(str, "", "", n)
+}
+
+foo() {
+  "foo"
+}
+
+name() {
+  "John"
+}
+
+repeat(x) {
+  x + x
+}
+
+cond_repeat(c, x) {
+  if (c prefix "yes")
+    if ("yes" prefix c)
+      repeat(x)
+    else
+      x
+  else
+    x
+}
+
+f(f(f("a")))
+
+concat_n("x", "....")
+
+if (if ("foo" prefix "foobar") "yes" else "no" prefix reverse "dino") "foo" else "bar"
+
+foo()
+"bar"
+
+cond_repeat(if ("y" + "e" + "s" prefix "yes") "yes" else "n" + "o", name())
+
+if ("y" prefix "joifsj") "yes" else "no, " + if ("y" prefix "yiwejora") "yes" else "no"
+
+if (if (if ("f" prefix "f") "y" else "n" prefix reverse "y") "y" else "n" prefix "n") "y" else "n"

@@ -1,0 +1,66 @@
+name()  {
+    "John"
+}
+
+reverseName() {
+    reverse "John"
+}
+
+surname() {
+    "Doe"
+}
+
+fullnameReverseFirst(first_name, sep, last_name) {
+    reverse first_name + sep + last_name
+}
+
+fullnameReverseLast(first_name, sep, last_name) {
+    first_name + sep + reverse last_name
+}
+
+reverseTwice() {
+  reverse reverse "John"
+}
+
+reverseIf(x) {
+  reverse if("yes" prefix x)
+            name()
+        else
+            surname()
+}
+
+reverseIfReverse(x) {
+  reverse if("yes" prefix x)
+            reverse name()
+        else
+            reverse surname()
+}
+
+findLangTypeReversed(langName) {
+    if ("Java" prefix langName)
+        reverse if(langName prefix "Java")
+            "Static"
+        else
+            if(reverse "script" prefix reverse langName)
+                "Dynamic"
+            else
+                "Unknown"
+    else
+        if (reverse "script" prefix reverse langName)
+            reverse "Probably Dynamic"
+        else
+            reverse "Unknown"
+}
+
+
+reverseName()
+fullnameReverseFirst(name(), " ", surname())
+fullnameReverseLast(name(), " ", surname())
+reverseTwice()
+reverseIf("yes")
+reverseIf("no")
+reverseIfReverse("yes")
+reverseIfReverse("no")
+findLangTypeReversed("Java")
+findLangTypeReversed("Javascript")
+findLangTypeReversed("Typescript")

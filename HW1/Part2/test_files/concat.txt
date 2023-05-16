@@ -1,0 +1,34 @@
+name()  {
+    "John"
+}
+
+repeat(x) {
+    x + x
+}
+
+concat() {
+    "yes" + if( "aa" prefix "bb") "yes" else "no"
+}
+
+concatIfs ( ) {
+    if( "aa" prefix "bb") "yes" else "no" + if( "a" prefix "aa") "yes" else "no"
+}
+
+concatIfsReverse() {
+  reverse if( "aa" prefix "bb") "yes" else "no" + if( "a" prefix "aa") "yes" else "no"
+}
+
+foo() {
+  if( "b" prefix "aa") "yes" else "no" + if( "a" prefix "aa") "yes" else "no"
+}
+
+foo2() {
+  reverse if( "b" prefix "aa") "yes" else "no" + reverse if( "b" prefix "aa") "yes" else "no" + name()
+}
+
+
+concat()
+concatIfs()
+concatIfsReverse()
+foo()
+foo2()

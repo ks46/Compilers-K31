@@ -1,0 +1,26 @@
+name () {
+  "John"
+}
+
+repeat(x) {
+    x + x
+}
+
+
+"hello, world"
+
+name()
+
+if("no" prefix "yes")
+    repeat("Jane")
+else
+    repeat(name())
+
+if("J" prefix name())
+    repeat("Jane")
+else
+    repeat(name())
+
+
+reverse "Unknown"
+reverse if( "b" prefix "aa") "yes" else "no" + reverse if( "b" prefix "aa") "yes" else "no" + name()

@@ -1,0 +1,18 @@
+foo(a, b, c) {
+    a + " " + b + " " + c
+}
+
+trythis(reverseme) {
+  if("a"+"b" prefix reverseme) reverse reverseme else "b"+"a"
+}
+
+
+"yes" + if ("y" prefix "y") " correct" else " incorrect" + " input"
+"yes" + if ("y" prefix "n") " correct" else " incorrect" + " input" 
+"yes" + if ("y" prefix "y") " correct" + " input" else " incorrect" 
+reverse "yes" + if ("y" prefix "y") reverse "correct " + " input" else " incorrect"
+
+foo("Yes", if ("y" prefix "y") reverse "foo" + "x3" else "bla" + "bla", 
+    foo(foo("1", "2", "3") + " 1", foo("1", "2", "3") + " 2", foo("1", "2", "3") + " 3"))
+
+trythis("ab" + reverse "ab")
