@@ -2,4 +2,4 @@
 
 # Ignore temporary files from HW1 Part2
 HW1/Part2/output_files/**
-HW1/Part2/Scanner.java~
+HW1/Part2/*~
